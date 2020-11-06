@@ -1,0 +1,181 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      6900,        173]
+NotebookOptionsPosition[      6532,        159]
+NotebookOutlinePosition[      6946,        175]
+CellTagsIndexPosition[      6903,        172]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Specify", " ", "the", " ", "data", " ", "directory"}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"path", "="}], 
+    RowBox[{"(*", 
+     RowBox[{"add", " ", "your", " ", "path", " ", "here"}], "*)"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Import", " ", "data"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SetDirectory", "[", "path", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"PictureNames", "=", 
+     RowBox[{"FileNames", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Creating", " ", "the", " ", "tables", " ", "to", " ", "store", " ", 
+     "the", " ", "features"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FeaturesTableHaar", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FeaturesTableCoiflet", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Analysing", " ", "subsequently", " ", "all", " ", "the", " ", "images"}],
+     "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"Do", "[", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{
+      "Importing", " ", "an", " ", "image", " ", "and", " ", "tranforming", 
+       " ", "it", " ", "to", " ", "the", " ", "8"}], "-", 
+      RowBox[{"bit", " ", "format"}]}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"image", " ", "=", " ", 
+       RowBox[{"Import", "[", 
+        RowBox[{"path", "<>", " ", 
+         RowBox[{"ToString", "[", 
+          RowBox[{"PictureNames", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], "]"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"ImageBrightness", "=", 
+       RowBox[{"ImageData", "[", 
+        RowBox[{"image", ",", "\"\<Byte\>\""}], "]"}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Performing", " ", "Discrete", " ", "Wavelet", " ", "Transform", " ", 
+        "using", " ", "Haar", " ", "wavelets", " ", "and", " ", "saving", " ",
+         "the", " ", "energy", " ", "decomposition"}], "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"dwd", " ", "=", " ", 
+       RowBox[{"DiscreteWaveletTransform", "[", 
+        RowBox[{"ImageBrightness", ",", " ", 
+         RowBox[{"HaarWavelet", "[", "]"}], ",", " ", "10", ",", 
+         RowBox[{"Padding", "\[Rule]", "0"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"FeaturesTableHaar", "=", 
+       RowBox[{"Append", "[", 
+        RowBox[{"FeaturesTableHaar", ",", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"StringTrim", "[", 
+             RowBox[{
+              RowBox[{"PictureNames", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<.png\>\""}], "]"}], 
+            "}"}], ",", 
+           RowBox[{
+            RowBox[{"dwd", "[", "\"\<EnergyFraction\>\"", "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", "2"}], "]"}], "]"}]}], "]"}]}], "]"}]}], ";",
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Performing", " ", "Discrete", " ", "Wavelet", " ", "Transform", " ", 
+        "using", " ", "Coiflet", " ", "wavelets", " ", "and", " ", "saving", 
+        " ", "the", " ", "energy", " ", "decomposition"}], "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"dwd", " ", "=", " ", 
+       RowBox[{"DiscreteWaveletTransform", "[", 
+        RowBox[{"ImageBrightness", ",", " ", 
+         RowBox[{"CoifletWavelet", "[", "5", "]"}], ",", " ", "10", ",", 
+         RowBox[{"Padding", "\[Rule]", "0"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"FeaturesTableCoiflet", "=", 
+       RowBox[{"Append", "[", 
+        RowBox[{"FeaturesTableCoiflet", ",", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"StringTrim", "[", 
+             RowBox[{
+              RowBox[{"PictureNames", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<.png\>\""}], "]"}], 
+            "}"}], ",", 
+           RowBox[{
+            RowBox[{"dwd", "[", "\"\<EnergyFraction\>\"", "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", "2"}], "]"}], "]"}]}], "]"}]}], "]"}]}], 
+      ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"Length", "[", "PictureNames", "]"}]}], "}"}]}], "]"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Exporting", " ", "the", " ", "FeatureTables"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Export", "[", 
+    RowBox[{"\"\<HaarFeatures_query.csv\>\"", ",", 
+     RowBox[{"Transpose", "[", "FeaturesTableHaar", "]"}], ",", 
+     "\"\<Table\>\"", ",", 
+     RowBox[{"\"\<FieldSeparators\>\"", "\[Rule]", "\"\<;\>\""}]}], "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Export", "[", 
+    RowBox[{"\"\<CoifletFeatures_query.csv\>\"", ",", 
+     RowBox[{"Transpose", "[", "FeaturesTableCoiflet", "]"}], ",", 
+     "\"\<Table\>\"", ",", 
+     RowBox[{"\"\<FieldSeparators\>\"", "\[Rule]", "\"\<;\>\""}]}], 
+    "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.803925846025666*^9, 3.803925998832015*^9}, {
+   3.8039260375838127`*^9, 3.803926226031843*^9}, {3.803926256771656*^9, 
+   3.8039262852680063`*^9}, {3.803926419840784*^9, 3.803926429443108*^9}, {
+   3.8039264917575264`*^9, 3.803926533778107*^9}, {3.8039266949711456`*^9, 
+   3.8039267346221075`*^9}, {3.804074521968762*^9, 3.8040745469810963`*^9}, 
+   3.804074590746167*^9, {3.8040775004675245`*^9, 3.8040775164098425`*^9}, {
+   3.8040775531441326`*^9, 3.804077572798568*^9}, {3.8040776032979975`*^9, 
+   3.8040776292525816`*^9}},ExpressionUUID->"abded2ba-caec-4de1-83d2-\
+0f15145a5a8b"]
+},
+WindowSize->{1141.2, 580.1999999999999},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"12.1 for Microsoft Windows (64-bit) (March 14, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"4fe4971c-11f1-4fe3-8461-4bf69adba174"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 5970, 137, 614, "Input",ExpressionUUID->"abded2ba-caec-4de1-83d2-0f15145a5a8b"]
+}
+]
+*)
+

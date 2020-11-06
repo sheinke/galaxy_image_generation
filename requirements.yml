@@ -1,0 +1,16 @@
+name: cil_astroneers
+channels:
+  - defaults
+dependencies:
+  - kaggle
+  - imageio
+  - Pillow
+  - numpy
+  - scipy
+  - scikit-learn
+  - tensorflow
+  - wandb
+  - pandas
+  - matplotlib
+  - jupyter
+  - seaborn
